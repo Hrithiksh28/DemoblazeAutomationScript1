@@ -14,12 +14,19 @@ namespace DemoblazeAutomationScript1.Tests
 {
     internal class Cart:Base
     {
+        CartPage cartPage;
+
+        [SetUp]
+        public void SetUp()
+        {
+            cartPage = new CartPage(driver);
+        }
         [Test]
         public void ProductAddedWhenLoggedout()
         {
             TestContext.Progress.WriteLine("TestID: FCN_029");
             //Adding products while logged out
-            CartPage cartPage = new CartPage(driver);
+            //CartPage cartPage = new CartPage(driver);
             cartPage.ProductsAddedWhenLoggedOutSteps();
         }
 
@@ -29,8 +36,8 @@ namespace DemoblazeAutomationScript1.Tests
             TestContext.Progress.WriteLine("TestID: FCN_029");
             //Hardcoded login values to check whether cache retention for one user exists
             LoginPage loginPage = new LoginPage(driver);
-            loginPage.LoginWithoutTestID("hrithik1", "hrihtik");
-            CartPage cartPage = new CartPage(driver);
+            loginPage.LoginWithoutTestID("hrithik1", "hrithik");
+            //CartPage cartPage = new CartPage(driver);
             cartPage.ProductsAddedWhenLoggedOutSteps();
         }
 
@@ -39,7 +46,7 @@ namespace DemoblazeAutomationScript1.Tests
         {
             TestContext.Progress.WriteLine("TestID: FCN_030");
             //Verify whether cache is cleared after logging out
-            CartPage cartPage = new CartPage(driver);
+            //CartPage cartPage = new CartPage(driver);
             cartPage.CacheRemovalAfterLoggingoutSteps();
         }
 
@@ -48,7 +55,7 @@ namespace DemoblazeAutomationScript1.Tests
         {
             TestContext.Progress.WriteLine("TestID: FCN_031");
             //Verify whether cache is restored after re logging in
-            CartPage cartPage = new CartPage(driver);
+            //CartPage cartPage = new CartPage(driver);
             cartPage.CacheRetentionSteps();
 
         }
@@ -73,7 +80,7 @@ namespace DemoblazeAutomationScript1.Tests
                         string year = reader["years"].ToString();
                         string testID = reader["id"].ToString();
 
-                        CartPage cartPage = new CartPage(driver);
+                        //CartPage cartPage = new CartPage(driver);
                         cartPage.PlaceOrderSteps(name, country, city, card, month, year, testID);
                     }
                 }
@@ -86,7 +93,7 @@ namespace DemoblazeAutomationScript1.Tests
         {
             TestContext.Progress.WriteLine("TestID: FCN_045");
             //Delete products in cart using Delelte hyperlink
-            CartPage cartPage = new CartPage(driver);
+            //CartPage cartPage = new CartPage(driver);
             cartPage.DeleteOrderSteps();
 
         }

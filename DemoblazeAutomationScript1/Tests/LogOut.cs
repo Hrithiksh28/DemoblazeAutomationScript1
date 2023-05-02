@@ -10,6 +10,13 @@ namespace DemoblazeAutomationScript1.Tests
 {
     internal class LogOut:Base
     {
+        public LogOutPage logOutPage;
+
+        [SetUp]
+        public void SetUp()
+        {
+            logOutPage = new LogOutPage(driver);
+        }
         [Test]
         public void LoggingOut()
         {
@@ -18,15 +25,15 @@ namespace DemoblazeAutomationScript1.Tests
             LoginPage loginPage = new LoginPage(driver);
             loginPage.LoginWithoutTestID("hrithik1", "hrithik");
 
-            LogOutPage logOutPage = new LogOutPage(driver);
+            //LogOutPage logOutPage = new LogOutPage(driver);
             logOutPage.LogOutSteps();
         }
 
         [Test]
         public void NavigationDrawerTextChange()
         {
-            LogOutPage logOut = new LogOutPage(driver);
-            logOut.NavigationDrawerTextChangeSteps();
+            //LogOutPage logOut = new LogOutPage(driver);
+            logOutPage.NavigationDrawerTextChangeSteps();
         }
         
     }

@@ -44,7 +44,7 @@ namespace DemoblazeAutomationScript1.Tests
                         LoginPage loginPage = new LoginPage(newDriver);
                         loginPage.LoginWithoutTestID(username, password);                      
                         //Close browser for every user
-                        driver.Quit();
+                        newDriver.Quit();
                     }
                 }
             }
@@ -70,9 +70,9 @@ namespace DemoblazeAutomationScript1.Tests
                         string password = reader["password"].ToString();
 
                         LoginPage loginPage = new LoginPage(newDriver);
-                        loginPage.LoginWithoutTestID(username, password); 
+                        loginPage.LoginWithoutTestID(username, password);
                         //Close browser for every user
-                        driver.Quit();
+                        newDriver.Quit();
                     }
                 }
             }
@@ -98,9 +98,9 @@ namespace DemoblazeAutomationScript1.Tests
                         string password = reader["password"].ToString();
 
                         LoginPage loginPage = new LoginPage(newDriver);
-                        loginPage.LoginWithoutTestID(username, password); 
+                        loginPage.LoginWithoutTestID(username, password);
                         //Close browser for every user
-                        driver.Quit();
+                        newDriver.Quit();
                     }
                 }
             }
@@ -126,9 +126,9 @@ namespace DemoblazeAutomationScript1.Tests
                         string password = reader["password"].ToString();
 
                         LoginPage loginPage = new LoginPage(newDriver);
-                        loginPage.LoginWithoutTestID(username, password); 
+                        loginPage.LoginWithoutTestID(username, password);
                         //Close browser for every user
-                        driver.Quit();
+                        newDriver.Quit();
                     }
                 }
             }

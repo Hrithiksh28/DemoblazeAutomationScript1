@@ -1,4 +1,6 @@
 ﻿using DemoblazeAutomationScript1.Tests;
+using DemoblazeAutomationScript1.Utilities;
+using NUnit.Framework;
 using NUnit.Framework.Internal;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
@@ -16,7 +18,7 @@ namespace DemoblazeAutomationScript1.PageObjects
     internal class SignupPage
     {
         private IWebDriver driver;
-
+        public CommonFunctions function;
         public IWebDriver GetDriver()
         {
             return driver;
@@ -25,6 +27,7 @@ namespace DemoblazeAutomationScript1.PageObjects
         public SignupPage(IWebDriver driver)
         {
             this.driver = driver;
+            function = new CommonFunctions(driver);
             PageFactory.InitElements(driver, this);
                 
         }
@@ -41,17 +44,18 @@ namespace DemoblazeAutomationScript1.PageObjects
         [FindsBy(How = How.XPath, Using = "//button[@onclick='register()']")]
         private IWebElement signButton;
 
-        public void WaitForDisplay()
+        /*public void WaitForDisplay()
         {
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromMilliseconds(3000));
             wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//input[@id='sign-username']")));
 
-        }
+        }*/
 
         public void signUpValidWithTestID(string username, string password, string testID)
         {
             signupNav.Click();
-            WaitForDisplay();
+            //WaitForDisplay();
+            CommonFunctions.WaitForCondition(driver,signUsername, 5);
             signUsername.SendKeys(username);
             signPassword.SendKeys(password);
             signButton.Click();
@@ -61,15 +65,19 @@ namespace DemoblazeAutomationScript1.PageObjects
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromMilliseconds(3000));
             wait.Until(ExpectedConditions.AlertIsPresent());
             string strAlert = driver.SwitchTo().Alert().Text;
+            Assert.IsTrue(driver.SwitchTo().Alert().Text.Contains(strAlert));
             TestContext.Progress.WriteLine("Outcome: "+strAlert);
             driver.SwitchTo().Alert().Accept();
             driver.Navigate().Refresh();
+
+           
 
         }
         public void signUpValidWithoutTestID(string username, string password)
         {
             signupNav.Click();
-            WaitForDisplay();
+            //WaitForDisplay();
+            CommonFunctions.WaitForCondition(driver,signUsername, 5);
             signUsername.SendKeys(username);
             signPassword.SendKeys(password);
             signButton.Click();
@@ -82,11 +90,14 @@ namespace DemoblazeAutomationScript1.PageObjects
             driver.SwitchTo().Alert().Accept();
             driver.Navigate().Refresh();
 
+            Assert.IsTrue(driver.SwitchTo().Alert().Text.Contains(strAlert));
+
         }
         public void BorderColourChangeUsername()
         {
             TestContext.Progress.WriteLine("TestID: GUI_009");
             signupNav.Click();
+            CommonFunctions.WaitForCondition(driver,signUsername, 5);
             string beforeColor = signUsername.GetCssValue("border-color");
             TestContext.Progress.WriteLine("Before CLicking");
             TestContext.Progress.WriteLine(beforeColor);
@@ -95,11 +106,14 @@ namespace DemoblazeAutomationScript1.PageObjects
             string afterColor = signUsername.GetCssValue("border-color");
             TestContext.Progress.WriteLine(afterColor);
 
+            Assert.AreNotEqual(beforeColor, afterColor);
+
         }
         public void BorderColourChangePassword()
         {
             TestContext.Progress.WriteLine("TestID: GUI_010");
             signupNav.Click();
+            CommonFunctions.WaitForCondition(driver,signUsername, 5);
             string beforeColor = signPassword.GetCssValue("border-color");
             TestContext.Progress.WriteLine("Before CLicking");
             TestContext.Progress.WriteLine(beforeColor);
@@ -108,11 +122,14 @@ namespace DemoblazeAutomationScript1.PageObjects
             string afterColor = signPassword.GetCssValue("border-color");
             TestContext.Progress.WriteLine(afterColor);
 
+            Assert.AreNotEqual(beforeColor, afterColor);
+
         }
         public void BorderColourChangeButton()
         {
             TestContext.Progress.WriteLine("TestID: GUI_011");
             signupNav.Click();
+            CommonFunctions.WaitForCondition(driver,signUsername, 5);
             string beforeColor = signButton.GetCssValue("border-color");
             TestContext.Progress.WriteLine("Before CLicking");
             TestContext.Progress.WriteLine(beforeColor);
@@ -121,11 +138,14 @@ namespace DemoblazeAutomationScript1.PageObjects
             string afterColor = signButton.GetCssValue("border-color");
             TestContext.Progress.WriteLine(afterColor);
 
+            Assert.AreNotEqual(beforeColor, afterColor);
+
         }
         public void BackgroundColourChangeButton()
         {
             TestContext.Progress.WriteLine("TestID: GUI_067");
             signupNav.Click();
+            CommonFunctions.WaitForCondition(driver,signUsername, 5);
             string beforeColor = signButton.GetCssValue("border-color");
             TestContext.Progress.WriteLine("Before CLicking");
             TestContext.Progress.WriteLine(beforeColor);
@@ -134,6 +154,8 @@ namespace DemoblazeAutomationScript1.PageObjects
             TestContext.Progress.WriteLine("After Clicking");
             string afterColor = signButton.GetCssValue("border-color");
             TestContext.Progress.WriteLine(afterColor);
+
+            Assert.AreNotEqual(beforeColor, afterColor);
 
         }
     }

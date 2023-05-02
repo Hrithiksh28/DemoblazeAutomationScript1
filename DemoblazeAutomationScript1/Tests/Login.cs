@@ -16,6 +16,13 @@ namespace DemoblazeAutomationScript1.Tests
 {
     internal class Login:Base
     {
+        public LoginPage loginPage;
+
+        [SetUp]
+        public void SetUp()
+        {
+            loginPage = new LoginPage(driver);
+        }
         [Test]
         public void LoginAllTest()
         {
@@ -50,7 +57,7 @@ namespace DemoblazeAutomationScript1.Tests
                         string testID = reader["id"].ToString();
 
                         //Calling Login Page object and passing username and password parameters defined above
-                        LoginPage loginPage = new LoginPage(driver);
+                        //LoginPage loginPage = new LoginPage(driver);
                         loginPage.LoginWithTestID(username, password, testID);
                         
                     }
@@ -63,7 +70,7 @@ namespace DemoblazeAutomationScript1.Tests
         [Test]
         public void NavigationDrawerTextChange()
         {
-            LoginPage loginPage = new LoginPage(driver);
+            //LoginPage loginPage = new LoginPage(driver);
             loginPage.NavigationDrawerTextChangeSteps();
         }
         /*[Test]

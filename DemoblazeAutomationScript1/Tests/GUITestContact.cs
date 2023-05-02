@@ -10,38 +10,45 @@ namespace DemoblazeAutomationScript1.Tests
 {
     internal class GUITestContact: Base
     {
+        ContactPage contactPage;
+
+        [SetUp]
+        public void SetUp()
+        {
+            contactPage = new ContactPage(driver);
+        }
         [Test]
         public void BorderColourChangeEmail()
         {
-            ContactPage contactPage = new ContactPage(driver);
+            //ContactPage contactPage = new ContactPage(driver);
             contactPage.BorderColourChangeEmail();
 
         }
         [Test]
         public void BorderColourChangeName()
         {
-            ContactPage contactPage = new ContactPage(driver);
+            //ContactPage contactPage = new ContactPage(driver);
             contactPage.BorderColourChangeName();
 
         }
         [Test]
         public void BorderColourChangeMessage()
         {
-            ContactPage contactPage = new ContactPage(driver);
+            //ContactPage contactPage = new ContactPage(driver);
             contactPage.BorderColourChangeMessage();
 
         }
-        [Test]
+        /*[Test]
         public void BorderColourChangeButton()
         {
-            ContactPage contactPage = new ContactPage(driver);
+            //ContactPage contactPage = new ContactPage(driver);
             contactPage.BorderColourChangeButton();
 
-        }
+        }*/
         [Test]
         public void BackgroundColourChangeButton()
         {
-            ContactPage contactPage = new ContactPage(driver);
+            //ContactPage contactPage = new ContactPage(driver);
             contactPage.BackgroundColourChangeButton();
 
         }

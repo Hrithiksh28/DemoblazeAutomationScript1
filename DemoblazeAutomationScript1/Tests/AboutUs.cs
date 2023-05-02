@@ -14,7 +14,13 @@ namespace DemoblazeAutomationScript1.Tests
 {
     internal class AboutUs:Base
     {
-        
+        AboutusPage aboutusPage;
+
+        [SetUp]
+        public void SetUp()
+        {
+            aboutusPage = new AboutusPage(driver);
+        }
 
         [Test]
         public void AboutVideoStart()
@@ -23,8 +29,7 @@ namespace DemoblazeAutomationScript1.Tests
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromMilliseconds(5000));
             wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//div[@class='vjs-poster']")));
             driver.FindElement(By.XPath("//div[@class='vjs-poster']")).Click();*/
-
-            AboutusPage aboutusPage = new AboutusPage(driver);
+            //AboutusPage aboutusPage = new AboutusPage(driver);
             aboutusPage.VideoStart();
         }
 
@@ -38,7 +43,7 @@ namespace DemoblazeAutomationScript1.Tests
             Thread.Sleep(10000);
             driver.FindElement(By.XPath("//button[@class='vjs-play-control vjs-control vjs-button vjs-playing']")).Click();*/
 
-            AboutusPage aboutusPage = new AboutusPage(driver);
+            //AboutusPage aboutusPage = new AboutusPage(driver);
             aboutusPage.VideoPause();
         }
         [Test]
@@ -53,7 +58,7 @@ namespace DemoblazeAutomationScript1.Tests
             Thread.Sleep(10000);
             driver.FindElement(By.XPath("//button[@class='vjs-play-control vjs-control vjs-button vjs-paused']")).Click();*/
 
-            AboutusPage aboutusPage = new AboutusPage(driver);
+            //AboutusPage aboutusPage = new AboutusPage(driver);
             aboutusPage.VideoResume();
 
         }
@@ -86,7 +91,7 @@ namespace DemoblazeAutomationScript1.Tests
                 driver.FindElement(By.XPath("//button[@class='vjs-mute-control vjs-control vjs-button vjs-vol-0']")).Click();
             }*/
 
-            AboutusPage aboutusPage = new AboutusPage(driver);
+            //AboutusPage aboutusPage = new AboutusPage(driver);
             aboutusPage.VideoVolumeControl();
         }
         [Test]
@@ -101,7 +106,7 @@ namespace DemoblazeAutomationScript1.Tests
             Thread.Sleep(5000);
             driver.FindElement(By.XPath("//button[@title='Exit Picture-in-Picture']")).Click();*/
 
-            AboutusPage aboutusPage = new AboutusPage(driver);
+            //AboutusPage aboutusPage = new AboutusPage(driver);
             aboutusPage.PictureinpictureVideo();
         }
         [Test]
@@ -116,7 +121,7 @@ namespace DemoblazeAutomationScript1.Tests
             Thread.Sleep(5000);
             driver.FindElement(By.XPath("//button[@title='Non-Fullscreen']")).Click();*/
 
-            AboutusPage aboutusPage = new AboutusPage(driver);
+            //AboutusPage aboutusPage = new AboutusPage(driver);
             aboutusPage.FullscreenVideo();
         }
     }

@@ -1,4 +1,6 @@
-﻿using OpenQA.Selenium;
+﻿using AngleSharp.Dom;
+using DemoblazeAutomationScript1.Utilities;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.PageObjects;
 using SeleniumExtras.WaitHelpers;
@@ -7,12 +9,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace DemoblazeAutomationScript1.PageObjects
 {
     internal class AboutusPage
     {
         private IWebDriver driver;
+        public CommonFunctions function;
 
         public IWebDriver GetDriver()
         {
@@ -22,6 +26,7 @@ namespace DemoblazeAutomationScript1.PageObjects
         public AboutusPage(IWebDriver driver)
         {
             this.driver = driver;
+            function = new CommonFunctions(driver);
             PageFactory.InitElements(driver, this);
         }
 
@@ -61,23 +66,25 @@ namespace DemoblazeAutomationScript1.PageObjects
         [FindsBy(How = How.XPath, Using = "//button[@title='Non-Fullscreen']")]
         private IWebElement nonFullscreenVideo;
 
-        public void waitForDisplay()
+       /* public void waitForDisplay()
         {
             aboutusNav.Click();
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromMilliseconds(5000));
             wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//div[@class='vjs-poster']")));
-        }
+        }*/
         public void VideoStart()
         {
             TestContext.Progress.WriteLine("TestID: FCN_022");
-            waitForDisplay();
-            startVideo.Click();
+            aboutusNav.Click();
+            CommonFunctions.waitForDisplay(driver,5);
+            startVideo.Click(); 
         }
 
         public void VideoPause()
         {
             TestContext.Progress.WriteLine("TestID: FCN_023");
-            waitForDisplay();
+            aboutusNav.Click();
+            CommonFunctions.waitForDisplay(driver,5);
             startVideo.Click();
             pauseVideo.Click();
 
@@ -86,7 +93,8 @@ namespace DemoblazeAutomationScript1.PageObjects
         public void VideoResume()
         {
             TestContext.Progress.WriteLine("TestID: FCN_024");
-            waitForDisplay();
+            aboutusNav.Click();
+            CommonFunctions.waitForDisplay(driver,5);
             startVideo.Click();
             pauseVideo.Click();
             resumeVideo.Click();
@@ -95,7 +103,8 @@ namespace DemoblazeAutomationScript1.PageObjects
         public void VideoVolumeControl()
         {
             TestContext.Progress.WriteLine("TestID: FCN_025");
-            waitForDisplay();
+            aboutusNav.Click();
+            CommonFunctions.waitForDisplay(driver,5);
             startVideo.Click();
             if (volumeControlVideo3.Displayed)
             {
@@ -114,25 +123,37 @@ namespace DemoblazeAutomationScript1.PageObjects
             }
         }
 
+        /*public IWebElement WaitForCondition(IWebElement element)
+        {
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
+            return wait.Until(ExpectedConditions.ElementToBeClickable(element));
+        }*/
+
         public void PictureinpictureVideo()
         {
             TestContext.Progress.WriteLine("TestID: FCN_027");
-            waitForDisplay();
-            Thread.Sleep(4000);
+            aboutusNav.Click();
+            CommonFunctions.waitForDisplay(driver,5);
+            startVideo.Click();
+            CommonFunctions.WaitForCondition(driver,pictureinpictureVideo,5);
             pictureinpictureVideo.Click();
-            Thread.Sleep(4000);
+            CommonFunctions.WaitForCondition(driver,exitPictureinpictureVideo,5);
             exitPictureinpictureVideo.Click();
         }
 
         public void FullscreenVideo()
         {
             TestContext.Progress.WriteLine("TestID: FCN_026");
-            waitForDisplay();
-            Thread.Sleep(4000);
+            aboutusNav.Click();
+            CommonFunctions.waitForDisplay(driver,5);
+            startVideo.Click();
+            CommonFunctions.WaitForCondition(driver, fullscreenVideo,5);
             fullscreenVideo.Click();
-            Thread.Sleep(4000);
+            CommonFunctions.WaitForCondition(driver,nonFullscreenVideo, 5);
             nonFullscreenVideo.Click();
         }
+
+
 
     }
 }

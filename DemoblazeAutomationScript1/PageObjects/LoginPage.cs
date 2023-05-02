@@ -1,4 +1,5 @@
 ﻿using AngleSharp.Dom;
+using DemoblazeAutomationScript1.Utilities;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.UI;
@@ -15,7 +16,7 @@ namespace DemoblazeAutomationScript1.PageObjects
     internal class LoginPage
     {
         private IWebDriver driver;
-
+        public CommonFunctions function;
         public IWebDriver GetDriver()
         {
             return driver;
@@ -24,6 +25,7 @@ namespace DemoblazeAutomationScript1.PageObjects
         public LoginPage(IWebDriver driver)
         {
             this.driver = driver;
+            function = new CommonFunctions(driver);
             PageFactory.InitElements(driver, this);
         }
 
@@ -50,18 +52,19 @@ namespace DemoblazeAutomationScript1.PageObjects
         private IWebElement loginButton;
 
         //Explicit wait using WebDriverWait
-        public void WaitForDisplay()
+        /*public void WaitForDisplay()
         {
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromMilliseconds(5000));
             wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//input[@id='loginusername']")));
-        }
+        }*/
 
         public void LoginWithoutTestID(string username, string password)
         {
 
             //Login page steps
             logiNav.Click();
-            WaitForDisplay();
+            //WaitForDisplay();
+            CommonFunctions.WaitForCondition(driver,loginUsername, 5);
             loginUsername.SendKeys(username);
             loginPassword.SendKeys(password);
             loginButton.Click();
@@ -72,20 +75,18 @@ namespace DemoblazeAutomationScript1.PageObjects
             {
                 //If alert is present, print alert message
                 string strAlert = driver.SwitchTo().Alert().Text;
+                Assert.IsTrue(driver.SwitchTo().Alert().Text.Contains(strAlert));
                 TestContext.Progress.WriteLine("Outcome: "+strAlert);
                 IAlert alert = driver.SwitchTo().Alert();
                 alert.Accept();
                 driver.Navigate().Refresh();
+
+                
+
             }
             catch (NoAlertPresentException)
             {
                 // If an alert is not present, print "login successful"
-                WebDriverWait wait2 = new WebDriverWait(driver, TimeSpan.FromMilliseconds(5000));
-                wait2.Until(ExpectedConditions.ElementIsVisible(By.XPath("//a[@onclick='logOut()']")));
-
-                LogOutPage logOut = new LogOutPage(driver);
-                logOut.LogOutSteps();
-
                 TestContext.Progress.WriteLine("Outcome: Login Successful!");
             }
 
@@ -97,7 +98,8 @@ namespace DemoblazeAutomationScript1.PageObjects
 
             //Login page steps
             logiNav.Click();
-            WaitForDisplay();
+            //WaitForDisplay();
+            CommonFunctions.WaitForCondition(driver,loginUsername, 5);
             loginUsername.SendKeys(username);
             loginPassword.SendKeys(password);
             loginButton.Click();
@@ -109,17 +111,17 @@ namespace DemoblazeAutomationScript1.PageObjects
             {
                 //If alert is present, print alert message
                 string strAlert = driver.SwitchTo().Alert().Text;
+                Assert.IsTrue(driver.SwitchTo().Alert().Text.Contains(strAlert));
                 TestContext.Progress.WriteLine("Outcome: " + strAlert);
                 IAlert alert = driver.SwitchTo().Alert();
                 alert.Accept();
                 driver.Navigate().Refresh();
+
             }
             catch (NoAlertPresentException)
             {
                 // If an alert is not present, print "login successful"
-                WebDriverWait wait2 = new WebDriverWait(driver, TimeSpan.FromMilliseconds(5000));
-                wait2.Until(ExpectedConditions.ElementIsVisible(By.XPath("//a[@onclick='logOut()']")));
-
+                CommonFunctions.WaitForCondition(driver,logOutNav, 5);
                 LogOutPage logOut = new LogOutPage(driver);
                 logOut.LogOutSteps();
 
@@ -134,7 +136,8 @@ namespace DemoblazeAutomationScript1.PageObjects
 
             //Login page steps
             logiNav.Click();
-            WaitForDisplay();
+            //WaitForDisplay();
+            CommonFunctions.WaitForCondition(driver,loginUsername, 5);
             loginUsername.SendKeys(username);
             loginPassword.SendKeys(password);
             loginButton.Click();
@@ -143,6 +146,7 @@ namespace DemoblazeAutomationScript1.PageObjects
             {
                 //If alert is present, print alert message
                 string strAlert = driver.SwitchTo().Alert().Text;
+                Assert.IsTrue(driver.SwitchTo().Alert().Text.Contains(strAlert));
                 TestContext.Progress.WriteLine("Outcome: " + strAlert);
                 IAlert alert = driver.SwitchTo().Alert();
                 alert.Accept();
@@ -150,9 +154,7 @@ namespace DemoblazeAutomationScript1.PageObjects
             }
             catch (NoAlertPresentException)
             {
-                // If an alert is not present, print "login successful"
-                WebDriverWait wait2 = new WebDriverWait(driver, TimeSpan.FromMilliseconds(5000));
-                wait2.Until(ExpectedConditions.ElementIsVisible(By.XPath("//a[@onclick='logOut()']")));
+                TestContext.Progress.WriteLine("Outcome: Login Successful!");
 
             }
 
@@ -167,6 +169,9 @@ namespace DemoblazeAutomationScript1.PageObjects
             TestContext.Progress.WriteLine(logiNav.Text);
             TestContext.Progress.WriteLine(signupNav.Text);
 
+            Assert.AreEqual("Log in", logiNav.Text);
+            Assert.AreEqual("Sign up", signupNav.Text);
+
             LoginWithoutTestIDHardcoded("hrithik1", "hrithik");
             Thread.Sleep(5000);
 
@@ -174,11 +179,16 @@ namespace DemoblazeAutomationScript1.PageObjects
             TestContext.Progress.WriteLine(logOutNav.Text);
             TestContext.Progress.WriteLine(welcomeNav.Text);
 
+            Assert.AreEqual("Log out", logOutNav.Text);
+            Assert.AreEqual("Welcome hrithik1", welcomeNav.Text);
+
+
         }
         public void BorderColourChangeUsername()
         {
             TestContext.Progress.WriteLine("TestID: GUI_009");
             logiNav.Click();
+            CommonFunctions.WaitForCondition(driver,loginUsername, 5);
             string beforeColor = loginUsername.GetCssValue("border-color");
             TestContext.Progress.WriteLine("Before CLicking");
             TestContext.Progress.WriteLine(beforeColor);
@@ -187,11 +197,13 @@ namespace DemoblazeAutomationScript1.PageObjects
             string afterColor = loginUsername.GetCssValue("border-color");
             TestContext.Progress.WriteLine(afterColor);
 
+            Assert.AreNotEqual(beforeColor, afterColor);
         }
         public void BorderColourChangePassword()
         {
             TestContext.Progress.WriteLine("TestID: GUI_010");
             logiNav.Click();
+            CommonFunctions.WaitForCondition(driver,loginUsername, 5);
             string beforeColor = loginPassword.GetCssValue("border-color");
             TestContext.Progress.WriteLine("Before CLicking");
             TestContext.Progress.WriteLine(beforeColor);
@@ -200,11 +212,13 @@ namespace DemoblazeAutomationScript1.PageObjects
             string afterColor = loginPassword.GetCssValue("border-color");
             TestContext.Progress.WriteLine(afterColor);
 
+            Assert.AreNotEqual(beforeColor, afterColor);
         }
         public void BorderColourChangeButton()
         {
             TestContext.Progress.WriteLine("TestID: GUI_017");
             logiNav.Click();
+            CommonFunctions.WaitForCondition(driver,loginUsername, 5);
             string beforeColor = loginButton.GetCssValue("border-color");
             TestContext.Progress.WriteLine("Before CLicking");
             TestContext.Progress.WriteLine(beforeColor);
@@ -213,11 +227,13 @@ namespace DemoblazeAutomationScript1.PageObjects
             string afterColor = loginButton.GetCssValue("border-color");
             TestContext.Progress.WriteLine(afterColor);
 
+            Assert.AreNotEqual(beforeColor, afterColor);
         }
         public void BackgroundColourChangeButton()
         {
             TestContext.Progress.WriteLine("TestID: GUI_068");
             logiNav.Click();
+            CommonFunctions.WaitForCondition(driver,loginUsername, 5);
             string beforeColor = loginButton.GetCssValue("border-color");
             TestContext.Progress.WriteLine("Before CLicking");
             TestContext.Progress.WriteLine(beforeColor);
@@ -227,9 +243,10 @@ namespace DemoblazeAutomationScript1.PageObjects
             string afterColor = loginButton.GetCssValue("border-color");
             TestContext.Progress.WriteLine(afterColor);
 
+            Assert.AreNotEqual(beforeColor, afterColor);
         }
 
-        
+
         /*
                 private bool IsAlertPresent()
                 {

@@ -1,4 +1,5 @@
 ﻿using DemoblazeAutomationScript1.Tests;
+using DemoblazeAutomationScript1.Utilities;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.UI;
@@ -16,15 +17,18 @@ namespace DemoblazeAutomationScript1.PageObjects
     {
 
         private IWebDriver driver;
+        public CommonFunctions function;
 
         public IWebDriver GetDriver()
         {
             return driver;
+            
         }
 
         public ContactPage(IWebDriver driver)
         {
             this.driver = driver;
+            function = new CommonFunctions(driver);
             PageFactory.InitElements(driver, this);
         }
 
@@ -39,16 +43,17 @@ namespace DemoblazeAutomationScript1.PageObjects
         [FindsBy(How = How.XPath, Using = "//button[@onclick='send()']")]
         private IWebElement sendButton;
 
-        public void WaitForDisplay()
+        /*public void WaitForDisplay()
         {
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromMilliseconds(2000));
             wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//input[@id='recipient-email']")));
-        }
+        }*/
 
         public void Contact(string email, string name, string message)
         {
             contactNav.Click();
-            WaitForDisplay();
+            //WaitForDisplay();
+            CommonFunctions.WaitForCondition(driver,receipentEmail, 5);
             receipentEmail.SendKeys(email);
             receipentName.SendKeys(name);
             receipentMessage.SendKeys(message);
@@ -62,6 +67,7 @@ namespace DemoblazeAutomationScript1.PageObjects
             string strAlert = driver.SwitchTo().Alert().Text;
             TestContext.Progress.WriteLine("Outcome: "+ strAlert);
             driver.SwitchTo().Alert().Accept();
+            Assert.IsTrue(strAlert.Contains("Thanks for the message!!"));
         }
         public void BorderColourChangeEmail()
         {
@@ -70,10 +76,13 @@ namespace DemoblazeAutomationScript1.PageObjects
             string beforeColor = receipentEmail.GetCssValue("border-color");
             TestContext.Progress.WriteLine("Before CLicking");
             TestContext.Progress.WriteLine(beforeColor);
+            CommonFunctions.WaitForCondition(driver, receipentEmail, 5);
             receipentEmail.Click();
             TestContext.Progress.WriteLine("After Clicking");
             string afterColor = receipentEmail.GetCssValue("border-color");
             TestContext.Progress.WriteLine(afterColor);
+
+            Assert.AreNotEqual(beforeColor, afterColor);
 
         }
         public void BorderColourChangeName()
@@ -83,10 +92,13 @@ namespace DemoblazeAutomationScript1.PageObjects
             string beforeColor = receipentName.GetCssValue("border-color");
             TestContext.Progress.WriteLine("Before CLicking");
             TestContext.Progress.WriteLine(beforeColor);
+            CommonFunctions.WaitForCondition(driver, receipentName, 5);
             receipentName.Click();
             TestContext.Progress.WriteLine("After Clicking");
             string afterColor = receipentName.GetCssValue("border-color");
             TestContext.Progress.WriteLine(afterColor);
+
+            Assert.AreNotEqual(beforeColor, afterColor);
 
         }
         public void BorderColourChangeMessage()
@@ -96,16 +108,21 @@ namespace DemoblazeAutomationScript1.PageObjects
             string beforeColor = receipentMessage.GetCssValue("border-color");
             TestContext.Progress.WriteLine("Before CLicking");
             TestContext.Progress.WriteLine(beforeColor);
+            CommonFunctions.WaitForCondition(driver, receipentMessage, 5);
             receipentMessage.Click();
             TestContext.Progress.WriteLine("After Clicking");
+            Thread.Sleep(1000);
             string afterColor = receipentMessage.GetCssValue("border-color");
             TestContext.Progress.WriteLine(afterColor);
+
+            Assert.AreNotEqual(beforeColor, afterColor);
 
         }
         public void BorderColourChangeButton()
         {
             TestContext.Progress.WriteLine("TestID: GUI_072");
             contactNav.Click();
+            CommonFunctions.WaitForCondition(driver,receipentEmail, 5);
             string beforeColor = sendButton.GetCssValue("border-color");
             TestContext.Progress.WriteLine("Before CLicking");
             TestContext.Progress.WriteLine(beforeColor);
@@ -114,11 +131,14 @@ namespace DemoblazeAutomationScript1.PageObjects
             string afterColor = sendButton.GetCssValue("border-color");
             TestContext.Progress.WriteLine(afterColor);
 
+            Assert.AreNotEqual(beforeColor, afterColor);
+
         }
         public void BackgroundColourChangeButton()
         {
             TestContext.Progress.WriteLine("TestID: GUI_073");
             contactNav.Click();
+            CommonFunctions.WaitForCondition(driver,receipentEmail, 5);
             string beforeColor = sendButton.GetCssValue("border-color");
             TestContext.Progress.WriteLine("Before CLicking");
             TestContext.Progress.WriteLine(beforeColor);
@@ -127,6 +147,8 @@ namespace DemoblazeAutomationScript1.PageObjects
             TestContext.Progress.WriteLine("After Clicking");
             string afterColor = sendButton.GetCssValue("border-color");
             TestContext.Progress.WriteLine(afterColor);
+
+            Assert.AreNotEqual(beforeColor, afterColor);
 
         }
 
